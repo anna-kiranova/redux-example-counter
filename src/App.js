@@ -1,29 +1,26 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
+import { incr, decr } from './actions/counter';
 
-export default class App extends Component {
-  state = {
-    counter: 0
-  }
-
-  incr() {
-    this.setState({
-      counter: this.state.counter + 1
-    })
-  }
-
-  decr() {
-    this.setState({
-      counter: this.state.counter - 1
-    })
-  }
-
-  render() {
-    return (
-        <div>
-          <input readOnly={true} value={this.state.counter} /><br/>
-          <button onClick={this.decr.bind(this)}>-</button>
-          <button onClick={this.incr.bind(this)}>+</button>
+const App = ({
+  counter,
+  incr,
+  decr
+}) => <div>
+          <input readOnly={true} value={counter} /><br/>
+          <button onClick={decr}>-</button>
+          <button onClick={incr}>+</button>
         </div>
-    )
+
+const mapStateToProps = state => {
+  return {
+    counter: state,
   }
-}
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  incr: () => dispatch(incr()),
+  decr: () => dispatch(decr()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
